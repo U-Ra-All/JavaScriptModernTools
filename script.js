@@ -23,30 +23,58 @@
 //   quantity,
 // } from './shopping-cart.js';
 
-import addToCart, { cart } from './shopping-cart.js';
+// import addToCart, { cart } from './shopping-cart.js';
 
-addToCart('рубашка', 2);
-addToCart('носки', 2);
-addToCart('трусы', 2);
+// addToCart('рубашка', 2);
+// addToCart('носки', 2);
+// addToCart('трусы', 2);
 
-console.log(cart);
+// console.log(cart);
 
-// const result = await fetch('https://jsonplaceholder.typicode.com/posts');
-// const data = await result.json();
-// console.log(data);
-// console.log('Код после await');
+// // const result = await fetch('https://jsonplaceholder.typicode.com/posts');
+// // const data = await result.json();
+// // console.log(data);
+// // console.log('Код после await');
 
-const getLastPost = async function () {
-  const result = await fetch('https://jsonplaceholder.typicode.com/posts');
-  const data = await result.json();
-  console.log(data);
+// const getLastPost = async function () {
+//   const result = await fetch('https://jsonplaceholder.typicode.com/posts');
+//   const data = await result.json();
+//   console.log(data);
 
-  return { title: data.at(-1).title, postText: data.at(-1).body };
-};
+//   return { title: data.at(-1).title, postText: data.at(-1).body };
+// };
 
-const lastPostData = getLastPost();
-console.log(lastPostData);
-lastPostData.then(data => console.log(data));
+// const lastPostData = getLastPost();
+// console.log(lastPostData);
+// lastPostData.then(data => console.log(data));
 
-const lastPostData1 = await getLastPost();
-console.log(lastPostData1);
+// const lastPostData1 = await getLastPost();
+// console.log(lastPostData1);
+
+const ShoppingCart1 = (function () {
+  const cart = [];
+  const shippingCost = 20;
+  const totalPrice = 300;
+  const totalQuantity = 10;
+  const addProductToCart = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(
+      `${product} в количестве ${quantity} шт добавлено в корзину, цена доставки ${shippingCost}`
+    );
+  };
+
+  const productOrderedMessage = function (product, quantity) {
+    console.log(`${product} в количестве ${quantity} шт заказан`);
+  };
+
+  return {
+    addProductToCart,
+    cart,
+    totalPrice,
+    totalQuantity,
+  };
+})();
+
+ShoppingCart1.addProductToCart('апельсин', 5);
+ShoppingCart1.addProductToCart('кола', 1);
+console.log(ShoppingCart1);
