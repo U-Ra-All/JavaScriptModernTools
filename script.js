@@ -84,3 +84,31 @@
 
 ///////////////////////////////////////////////
 // Модули CommonJS
+
+// Экспорт чего-либо
+// export.addProductToCart = function (product, quantity) {
+//       cart.push({ product, quantity });
+//       console.log(
+//         `${product} в количестве ${quantity} шт добавлено в корзину, цена доставки ${shippingCost}`
+//       );
+//     };
+
+// // Импорт
+// const { addProductToCart } = require('./shopping-cart.js');
+
+////////////////////////////////////////////////
+// Использование библиотеки lodash-es
+import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+
+const state = {
+  cart: [
+    { product: 'яблоко', quantity: 5 },
+    { product: 'апельсин', quantity: 3 },
+  ],
+  user: { loggedIn: true },
+};
+const stateCopy = Object.assign({}, state);
+const stateDeepCopy = cloneDeep(state);
+state.user.loggedIn = false;
+console.log(stateCopy);
+console.log(stateDeepCopy);

@@ -1,0 +1,23 @@
+{
+  "name": "startercode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/U-Ra-All/JavaScriptModernTools.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/U-Ra-All/JavaScriptModernTools/issues"
+  },
+  "homepage": "https://github.com/U-Ra-All/JavaScriptModernTools#readme",
+  "dependencies": {
+    "leaflet": "^1.7.1",
+    "lodash-es": "^4.17.21"
+  }
+}
