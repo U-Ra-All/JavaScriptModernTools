@@ -118,3 +118,10 @@ console.log(stateDeepCopy);
 if (module.hot) {
   module.hot.accept();
 }
+
+Promise.resolve('Testing').then(a => console.log(a));
+
+import 'core-js/stable';
+
+// Полифиллинг асинхронных функций
+import 'regenerator-runtime/runtime';
