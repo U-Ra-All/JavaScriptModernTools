@@ -23,11 +23,11 @@
 //   quantity,
 // } from './shopping-cart.js';
 
-// import addToCart, { cart } from './shopping-cart.js';
+import addToCart, { cart } from './shopping-cart.js';
 
-// addToCart('рубашка', 2);
-// addToCart('носки', 2);
-// addToCart('трусы', 2);
+addToCart('рубашка', 2);
+addToCart('носки', 2);
+addToCart('трусы', 2);
 
 // console.log(cart);
 
@@ -98,7 +98,9 @@
 
 ////////////////////////////////////////////////
 // Использование библиотеки lodash-es
-import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+// import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+
+import cloneDeep from 'lodash';
 
 const state = {
   cart: [
@@ -112,3 +114,7 @@ const stateDeepCopy = cloneDeep(state);
 state.user.loggedIn = false;
 console.log(stateCopy);
 console.log(stateDeepCopy);
+
+if (module.hot) {
+  module.hot.accept();
+}
