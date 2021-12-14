@@ -1,36 +1,34 @@
-var incomesAndExpenses = [
-  { value: 2500, description: 'Salary 💰', familyMember: 'YouRa' },
-  { value: -1200, description: 'Buying iPhone 📱', familyMember: 'YouRa' },
+const incomesAndExpenses = [
+  { value: 2500, description: 'Salary 💰', familyMember: 'youra' },
+  { value: -1200, description: 'Buying iPhone 📱', familyMember: 'youra' },
   {
     value: 50,
     description: 'Sold the old refrigerator 🧊',
-    familyMember: 'Ira',
+    familyMember: 'ira',
   },
-  { value: -40, description: 'Buying groceries 🛒', familyMember: 'Ira' },
-  { value: 500, description: 'Freelance income 💰', familyMember: 'YouRa' },
-  { value: 1200, description: 'Salary 💰', familyMember: 'Ira' },
-  { value: -50, description: 'Buying a handbag 👜', familyMember: 'Ira' },
-  { value: -105, description: 'Buying a dress 👗', familyMember: 'Ira' },
-  { value: -1300, description: 'Buying Macbook 💻', familyMember: 'YouRa' },
+  { value: -40, description: 'Buying groceries 🛒', familyMember: 'ira' },
+  { value: 500, description: 'Freelance income 💰', familyMember: 'youra' },
+  { value: 1200, description: 'Salary 💰', familyMember: 'ira' },
+  { value: -50, description: 'Buying a handbag 👜', familyMember: 'ira' },
+  { value: -105, description: 'Buying a dress 👗', familyMember: 'ira' },
+  { value: -2300, description: 'Buying Macbook 💻', familyMember: 'youra' },
 ];
 
-var limits = {
+const expenseLimits = {
   youra: 1500,
   ira: 1100,
 };
 
-var add = function (value, description, familyMember) {
-  if (!familyMember) familyMember = 'ira';
+const getExpenseLimit = familyMember => expenseLimits?.[familyMember] ?? 0;
+
+const addExpense = function (value, description, familyMember = 'ira') {
   familyMember = familyMember.toLowerCase();
 
-  var lim;
-  if (limits[familyMember]) {
-    lim = limits[familyMember];
-  } else {
-    lim = 0;
-  }
+  // const expenseLimit = expenseLimits[familyMember]
+  //   ? expenseLimits[familyMember]
+  //   : 0;
 
-  if (value <= lim) {
+  if (value <= getExpenseLimit(familyMember)) {
     incomesAndExpenses.push({
       value: -value,
       description: description,
@@ -38,36 +36,26 @@ var add = function (value, description, familyMember) {
     });
   }
 };
-add(20, 'Sushi 🍱');
-add(10, 'Going to cinema 🍿', 'YouRa');
-add(200, 'Something', 'Ira');
+addExpense(20, 'Sushi 🍱');
+addExpense(10, 'Going to cinema 🍿', 'YouRa');
+addExpense(200, 'Something', 'John');
 console.log(incomesAndExpenses);
 
-var check = function () {
-  for (var el of incomesAndExpenses) {
-    var lim;
-    if (limits[el.familyMember]) {
-      lim = limits[el.familyMember];
-    } else {
-      lim = 0;
-    }
-
-    if (el.value < -lim) {
-      el.flag = 'limit';
-    }
-  }
+const checkExpenses = function () {
+  for (const item of incomesAndExpenses)
+    if (item.value < -getExpenseLimit(item.familyMember)) item.flag = 'limit';
 };
-check();
+checkExpenses();
 
 console.log(incomesAndExpenses);
 
-var veryBigExpenses = function (limit) {
-  var output = '';
-  for (var el of budget) {
-    if (el.value <= -limit) {
-      output += el.description.slice(-2) + ' / ;';
-    }
-  }
+const printVeryBigExpenses = function (limit) {
+  let output = '';
+  for (const item of incomesAndExpenses)
+    output += item.value <= -limit ? `${item.description.slice(-2)} / ` : '';
+
   output = output.slice(0, -2);
   console.log(output);
 };
+
+printVeryBigExpenses(100);
