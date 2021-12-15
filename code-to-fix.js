@@ -1,4 +1,6 @@
-const incomesAndExpenses = [
+'use strict';
+
+const incomesAndExpenses = Object.freeze([
   { value: 2500, description: 'Salary 💰', familyMember: 'youra' },
   { value: -1200, description: 'Buying iPhone 📱', familyMember: 'youra' },
   {
@@ -12,50 +14,108 @@ const incomesAndExpenses = [
   { value: -50, description: 'Buying a handbag 👜', familyMember: 'ira' },
   { value: -105, description: 'Buying a dress 👗', familyMember: 'ira' },
   { value: -2300, description: 'Buying Macbook 💻', familyMember: 'youra' },
-];
+]);
 
-const expenseLimits = {
+const expenseLimits = Object.freeze({
   youra: 1500,
   ira: 1100,
-};
+});
 
-const getExpenseLimit = familyMember => expenseLimits?.[familyMember] ?? 0;
+const getExpenseLimit = (familyMember, limits) => limits?.[familyMember] ?? 0;
 
-const addExpense = function (value, description, familyMember = 'ira') {
-  familyMember = familyMember.toLowerCase();
+// Чистая функция
+const addExpense = function (
+  state,
+  limits,
+  value,
+  description,
+  familyMember = 'ira'
+) {
+  const lowerCaseFamilyMember = familyMember.toLowerCase();
 
   // const expenseLimit = expenseLimits[familyMember]
   //   ? expenseLimits[familyMember]
   //   : 0;
 
-  if (value <= getExpenseLimit(familyMember)) {
-    incomesAndExpenses.push({
-      value: -value,
-      description: description,
-      familyMember: familyMember,
-    });
-  }
+  return value <= getExpenseLimit(lowerCaseFamilyMember, limits)
+    ? [
+        ...state,
+        {
+          value: -value,
+          description: description,
+          familyMember: lowerCaseFamilyMember,
+        },
+      ]
+    : state;
 };
-addExpense(20, 'Sushi 🍱');
-addExpense(10, 'Going to cinema 🍿', 'YouRa');
-addExpense(200, 'Something', 'John');
-console.log(incomesAndExpenses);
+const incomesAndExpenses1 = addExpense(
+  incomesAndExpenses,
+  expenseLimits,
+  20,
+  'Sushi 🍱'
+);
+console.log(incomesAndExpenses1);
 
-const checkExpenses = function () {
-  for (const item of incomesAndExpenses)
-    if (item.value < -getExpenseLimit(item.familyMember)) item.flag = 'limit';
-};
-checkExpenses();
+const incomesAndExpenses2 = addExpense(
+  incomesAndExpenses1,
+  expenseLimits,
+  10,
+  'Going to cinema 🍿',
+  'YouRa'
+);
+console.log(incomesAndExpenses2);
 
-console.log(incomesAndExpenses);
+const incomesAndExpenses3 = addExpense(
+  incomesAndExpenses2,
+  expenseLimits,
+  200,
+  'Something',
+  'John'
+);
+console.log(incomesAndExpenses3);
 
-const printVeryBigExpenses = function (limit) {
-  let output = '';
-  for (const item of incomesAndExpenses)
-    output += item.value <= -limit ? `${item.description.slice(-2)} / ` : '';
+// const checkExpenses = function (state, limits) {
+//   return state.map(item =>
+//     item.value < -getExpenseLimit(item.familyMember, limits)
+//       ? { ...item, flag: 'limit' }
+//       : item
+//   );
 
-  output = output.slice(0, -2);
+//   // for (const item of state)
+//   //   if (item.value < -getExpenseLimit(item.familyMember, limits)) item.flag = 'limit';
+// };
+
+const checkExpenses = (state, limits) =>
+  state.map(item =>
+    item.value < -getExpenseLimit(item.familyMember, limits)
+      ? { ...item, flag: 'limit' }
+      : item
+  );
+
+const incomesAndExpenses4 = checkExpenses(incomesAndExpenses3, expenseLimits);
+console.log(incomesAndExpenses4);
+
+const printVeryBigExpenses = function (state, limit) {
+  // const output = state
+  //   .filter(item => item.value <= -limit)
+  //   .map(item => item.description.slice(-2))
+  //   .join(' / ');
+  const output = state
+    .filter(item => item.value <= -limit)
+    .reduce(
+      (outputString, currentItem) =>
+        `${outputString} / ${currentItem.description.slice(-2)}`,
+      ''
+    )
+    .substring(2);
   console.log(output);
+
+  // let output = '';
+  // for (const item of incomesAndExpenses)
+  //   output += item.value <= -limit ? `${item.description.slice(-2)} / ` : '';
+
+  // output = output.slice(0, -2);
+  // console.log(output);
 };
 
-printVeryBigExpenses(100);
+printVeryBigExpenses(incomesAndExpenses4, 100);
